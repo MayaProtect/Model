@@ -34,11 +34,16 @@ jobs:
       uses: ASzc/change-string-case-action@v1
       with:
         string: ${{ github.event.repository.name }}
+
+    - name: Create Repository if not exists
+      uses: int128/create-ecr-repository-action@v1
+      with:
+        repository: ${{ steps.downcase-repo-name.outputs.lowercase }}
     
     - name: Build, tag, and push image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        REPOSITORY: mayaprotect
+        REPOSITORY: ${{ steps.downcase-repo-name.outputs.lowercase }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
