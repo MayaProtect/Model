@@ -2,9 +2,9 @@ FROM python:3.10-bullseye
 
 WORKDIR /app
 
-RUN pip install -r requirements.txt
-
 COPY . .
+
+RUN pip install -r requirements.txt
 
 # ENV VARS
 
