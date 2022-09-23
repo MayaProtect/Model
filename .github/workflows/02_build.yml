@@ -35,13 +35,19 @@ jobs:
       with:
         string: ${{ github.event.repository.name }}
     
+    # - name: Build, tag, and push image to Amazon ECR
+    #   env:
+    #     REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+    #     REGISTRY_ALIAS: mayaprotect
+    #     REPOSITORY: ${{ steps.downcase-repo-name.outputs.lowercase }}
+    #     IMAGE_TAG: ${{ github.sha }}
+    #   run: |
+    #     docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:latest .
+    #     docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+    #     docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:latest
     - name: Build, tag, and push image to Amazon ECR
-      env:
-        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        REGISTRY_ALIAS: mayaprotect
-        REPOSITORY: ${{ steps.downcase-repo-name.outputs.lowercase }}
-        IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:latest .
-        docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
-        docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:latest
+        docker build -t test:1.0.0 -t test:latest .
+        docker push 378810107815.dkr.ecr.eu-west-1.amazonaws.com/mayaprotect/test:1.0.0
+        docker push 378810107815.dkr.ecr.eu-west-1.amazonaws.com/mayaprotect/test:latest
+        
